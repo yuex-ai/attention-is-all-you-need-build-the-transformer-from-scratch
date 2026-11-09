@@ -92,8 +92,22 @@ def scale_embeddings_by_sqrt_d_model(embeddings, d_model):
     E=embeddings*math.sqrt(d_model)
     return E
 
-# Step 8 - compute_positional_div_term (not yet solved)
-# TODO: implement
+# Step 8 - compute_positional_div_term
+import torch
+
+def compute_positional_div_term(d_model):
+    # TODO: return a 1D FloatTensor of length d_model // 2 holding the sinusoidal frequency divisors
+    if d_model <= 0 or d_model % 2 != 0:
+        raise ValueError(f"d_model must be a positive even integer, got {d_model}")
+
+    # 偶数特征索引 0, 2, 4, ..., d_model - 2，长度恰为 d_model // 2
+    even_idx = torch.arange(0, d_model, 2, dtype=torch.float32)
+
+    # 标量预计算：每个单位偶索引对应的指数衰减率（负值）
+    scale = -math.log(10000.0) / d_model
+
+    # exp-of-log 形式，与论文公式一一对应，数值更稳定
+    return torch.exp(even_idx * scale)
 
 # Step 9 - build_position_index_column (not yet solved)
 # TODO: implement
