@@ -109,8 +109,14 @@ def compute_positional_div_term(d_model):
     # exp-of-log 形式，与论文公式一一对应，数值更稳定
     return torch.exp(even_idx * scale)
 
-# Step 9 - build_position_index_column (not yet solved)
-# TODO: implement
+# Step 9 - build_position_index_column
+import torch
+
+def build_position_index_column(max_len):
+    """Return a (max_len, 1) float tensor of [0, 1, ..., max_len-1]."""
+    # TODO: build a column vector of position indices from 0 to max_len-1
+    output=torch.arange(0,max_len,dtype=torch.float32)
+    return output.reshape(-1,1)
 
 # Step 10 - fill_even_indices_with_sin (not yet solved)
 # TODO: implement
